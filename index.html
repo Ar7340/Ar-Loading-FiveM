@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+    <header>
+        <link rel="stylesheet" href="assets/css/all.min.css">
+        <link rel="stylesheet" href="assets/css/style.css">
+        <link rel="stylesheet" href="assets/css/fonts.css">
+           <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+        <title>Ar7340 RP</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script type="text/javascript" src="assets/scripts/all.min.js"></script>
+    </header>
+<body>
+    <iframe id="youtube-player" class="bg" src="https://www.youtube.com/embed/Y652HaNvjbY?enablejsapi=1&autoplay=1&loop=1&mute=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+    <img id="cursor" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTMgM0wxMC41IDEwLjVNMTAuNSAxMC41TDcgMjFMMTMgMTNIMjFMMTAuNSAxMC41WiIgc3Ryb2tlPSIjOWY3YWVhIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZmlsbD0iIzMzMCIgZmlsbC1vcGFjaXR5PSIwLjMiLz4KPC9zdmc+">
+    
+    <div class="overlay">
+        <div class="cornercontainer">
+            <div class="top">
+                <div class="left">
+                    <p class="state" id="clients">0/0</p>
+                    <p class="date" id="date"></p>
+                    <p class="title">Ar7340 RP</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="information">
+                <!-- Information content can be added here -->
+                <div class="buttons">
+                    <!-- Buttons can be added here -->
+                </div>
+            </div>
+
+            <div class="loader glow">
+                <div class="logo">
+                    <img class="transparent-logo" src="assets/media/logo.png" alt="Ar7340 RP Logo">
+                    <img class="filled-logo" src="assets/media/filled-logo.png" alt="Ar7340 RP Filled Logo">
+                </div>
+                <p class="progress">0%</p>
+                <p class="description">Loading server...</p>
+            </div>                
+
+            <div class="categories">
+                <div class="buttons">
+                    <!-- Category buttons will be added here -->
+                </div>
+                <div class="carousel">
+                    <div class="socialmedia">
+                        <!-- Social media icons will be populated here -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="hideoverlay">
+                <div class="bind">F8</div>
+                <span class="text">Hide Interface</span>
+            </div>
+
+            <!-- Music Controls -->
+            <div class="music-controls">
+                <div class="music-info">
+                    <i class="fas fa-music music-icon"></i>
+                    <span class="music-title" id="music-title">Background Music</span>
+                </div>
+                <div class="controls">
+                    <button class="control-btn" id="play-pause-btn">
+                        <i class="fas fa-pause"></i>
+                    </button>
+                    <div class="volume-control">
+                        <i class="fas fa-volume-down"></i>
+                        <input type="range" id="volume-slider" min="0" max="100" value="10" class="volume-slider">
+                        <span class="volume-percent" id="volume-percent">10%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Social Media Section -->
+        <div class="socials">
+            <div class="buttons" id="social-buttons"></div>
+        </div>
+    </div>
+
+        <script src="assets/scripts/config.js" type="text/javascript"></script>
+        <script src="assets/scripts/main.js" type="text/javascript"></script>
+
+        <!-- Audio element with aggressive autoplay settings -->
+        <audio id="music" autoplay loop muted preload="auto" playsinline>
+            <source src="assets/media/background-music.mp3" type="audio/mpeg">
+            <source src="assets/media/background-music.ogg" type="audio/ogg">
+            <source src="assets/media/background-music.wav" type="audio/wav">
+            Your browser does not support the audio element.
+        </audio>
+
+        <script>
+            // Immediate autoplay attempt
+            document.addEventListener('DOMContentLoaded', function() {
+                const music = document.getElementById('music');
+                if (music) {
+                    // Start muted to bypass autoplay restrictions
+                    music.muted = true;
+                    music.volume = 0.1;
+                    
+                    // Play immediately
+                    music.play().then(() => {
+                        // Unmute after a short delay
+                        setTimeout(() => {
+                            music.muted = false;
+                        }, 100);
+                    }).catch(console.log);
+                }
+            });
+        </script>
+    </body>
+</html>
