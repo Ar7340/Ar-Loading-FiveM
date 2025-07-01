@@ -457,3 +457,170 @@ function initializeMusicControls() {
     updatePlayPauseButton();
     updateVolumeIcon(currentVolume);
 }
+
+// FiveM Server Status Function
+async function updateServerStatus() {
+    const clientsElement = document.getElementById('clients');
+    const serverIP = Config.ServerIP || "localhost:30120"; // Use config or fallback
+    
+    try {
+        // FiveM server info endpoint
+        const response = await fetch(`http://${serverIP}/info.json`);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const serverInfo = await response.json();
+        
+        // Extract player count and max players
+        const currentPlayers = serverInfo.clients || 0;
+        const maxPlayers = serverInfo.sv_maxclients || 32;
+        
+        // Update the display
+        if (clientsElement) {
+            clientsElement.textContent = `${currentPlayers}/${maxPlayers}`;
+            
+            // Add color coding based on server population
+            const percentage = (currentPlayers / maxPlayers) * 100;
+            if (percentage >= 90) {
+                clientsElement.style.color = '#ef4444'; // Red for nearly full
+            } else if (percentage >= 70) {
+                clientsElement.style.color = '#f59e0b'; // Orange for high
+            } else if (percentage >= 40) {
+                clientsElement.style.color = '#10b981'; // Green for medium
+            } else {
+                clientsElement.style.color = '#c084fc'; // Purple for low
+            }
+        }
+        
+        console.log(`Server Status: ${currentPlayers}/${maxPlayers} players online`);
+        
+    } catch (error) {
+        console.error('Failed to fetch server status:', error);
+        
+        // Fallback display when server is unreachable
+        if (clientsElement) {
+            clientsElement.textContent = 'Offline';
+            clientsElement.style.color = '#6b7280'; // Gray for offline
+        }
+    }
+}
+
+// Alternative method using players.json endpoint
+async function updateServerStatusAlternative() {
+    const clientsElement = document.getElementById('clients');
+    const serverIP = Config.ServerIP || "localhost:30120";
+    
+    try {
+        // Get players list and server info separately
+        const [playersResponse, infoResponse] = await Promise.all([
+            fetch(`http://${serverIP}/players.json`),
+            fetch(`http://${serverIP}/info.json`)
+        ]);
+        
+        if (!playersResponse.ok || !infoResponse.ok) {
+            throw new Error('Failed to fetch server data');
+        }
+        
+        const players = await playersResponse.json();
+        const serverInfo = await infoResponse.json();
+        
+        const currentPlayers = players.length;
+        const maxPlayers = serverInfo.sv_maxclients || 32;
+        
+        if (clientsElement) {
+            clientsElement.textContent = `${currentPlayers}/${maxPlayers}`;
+            
+            // Color coding
+            const percentage = (currentPlayers / maxPlayers) * 100;
+            if (percentage >= 90) {
+                clientsElement.style.color = '#ef4444';
+            } else if (percentage >= 70) {
+                clientsElement.style.color = '#f59e0b';
+            } else if (percentage >= 40) {
+                clientsElement.style.color = '#10b981';
+            } else {
+                clientsElement.style.color = '#c084fc';
+            }
+        }
+        
+    } catch (error) {
+        console.error('Failed to fetch server status (alternative method):', error);
+        if (clientsElement) {
+            clientsElement.textContent = 'Offline';
+            clientsElement.style.color = '#6b7280';
+        }
+    }
+}
+
+// Add CORS proxy support for external servers
+async function updateServerStatusWithProxy() {
+    const clientsElement = document.getElementById('clients');
+    const serverIP = Config.ServerIP || "localhost:30120";
+    
+    try {
+        // Using a CORS proxy for external requests (if needed)
+        const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(`http://${serverIP}/info.json`)}`;
+        const response = await fetch(proxyUrl);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        const serverInfo = JSON.parse(data.contents);
+        
+        const currentPlayers = serverInfo.clients || 0;
+        const maxPlayers = serverInfo.sv_maxclients || 32;
+        
+        if (clientsElement) {
+            clientsElement.textContent = `${currentPlayers}/${maxPlayers}`;
+            
+            const percentage = (currentPlayers / maxPlayers) * 100;
+            if (percentage >= 90) {
+                clientsElement.style.color = '#ef4444';
+            } else if (percentage >= 70) {
+                clientsElement.style.color = '#f59e0b';
+            } else if (percentage >= 40) {
+                clientsElement.style.color = '#10b981';
+            } else {
+                clientsElement.style.color = '#c084fc';
+            }
+        }
+        
+    } catch (error) {
+        console.error('Failed to fetch server status with proxy:', error);
+        if (clientsElement) {
+            clientsElement.textContent = 'Offline';
+            clientsElement.style.color = '#6b7280';
+        }
+    }
+}
+
+// Initialize server status checking
+function initializeServerStatus() {
+    // Update immediately
+    updateServerStatus();
+    
+    // Update every 30 seconds
+    setInterval(updateServerStatus, 30000);
+    
+    // Also update when page becomes visible again
+    document.addEventListener('visibilitychange', function() {
+        if (!document.hidden) {
+            updateServerStatus();
+        }
+    });
+}
+
+// Integration with existing main.js
+// Add this to your existing updateDate function call area:
+
+// Initialize
+updateDate();
+setInterval(updateDate, 1000);
+setTimeout(() => updateProgress(), 1000);
+
+// Initialize server status (ADD THIS LINE)
+initializeServerStatus();
