@@ -19,40 +19,52 @@ document.addEventListener('mousemove', function(e) {
     cursor.style.top = e.clientY + 'px';
 });
 
+// Enhanced date display
+function updateDate() {
+    const now = new Date();
+    const timeString = now.toLocaleTimeString('en-US', { 
+        hour: '2-digit', 
+        minute: '2-digit',
+        hour12: false
+    });
+    document.getElementById('current-time').textContent = timeString;
+}
+
 // Loading animation
-let progress = 0;
-const progressElement = document.querySelector('.progress');
-const descriptionElement = document.querySelector('.loader .description');
-const filledLogo = document.querySelector('.filled-logo');
+let progress = 50;
+const progressElement = document.getElementById('progress-text');
+const descriptionElement = document.getElementById('progress-description');
+const progressBarFill = document.getElementById('progress-bar-fill');
 
 const loadingMessages = [
-    'Initializing server...',
-    'Loading assets...',
-    'Connecting to database...',
-    'Preparing experience...',
-    'Almost ready...',
-    'Welcome to Ar7340!'
+    'Welcome to Nirvana!'
 ];
 
 function updateProgress() {
     if (progress < 100) {
-        progress += Math.random() * 3;
+        progress += Math.random() * 0.5;
         if (progress > 100) progress = 100;
         
-        progressElement.textContent = Math.floor(progress) + '%';
-        filledLogo.style.height = progress + '%';
+        const displayProgress = Math.floor(progress);
+        progressElement.textContent = displayProgress + '%';
+        progressBarFill.style.width = progress + '%';
         
         const messageIndex = Math.floor((progress / 100) * (loadingMessages.length - 1));
         descriptionElement.textContent = loadingMessages[messageIndex];
         
-        setTimeout(updateProgress, 100 + Math.random() * 200);
+        setTimeout(updateProgress, 200 + Math.random() * 300);
+    } else {
+        // When loading is complete, show success message
+        descriptionElement.textContent = 'Ready to play!';
+        progressElement.style.color = '#10b981';
+        
+        // Hide loader after 2 seconds
+        setTimeout(() => {
+            document.querySelector('.loader').style.opacity = '0';
+            document.querySelector('.loader').style.transform = 'translateY(20px)';
+        }, 2000);
     }
 }
-
-// Initialize
-updateDate();
-setInterval(updateDate, 1000);
-setTimeout(() => updateProgress(), 1000);
 
 // Copy to clipboard function with visual feedback
 async function copyToClipboard(text, element) {
@@ -60,45 +72,62 @@ async function copyToClipboard(text, element) {
         await navigator.clipboard.writeText(text);
         
         // Add visual feedback
-        element.classList.add('copied');
-        
-        // Create a more prominent glow effect
         element.style.transform = 'translateY(-0.3vw) scale(1.1)';
         element.style.boxShadow = '0 15px 40px rgba(147, 51, 234, 0.8), 0 0 30px rgba(168, 85, 247, 0.6)';
         element.style.background = 'linear-gradient(145deg, rgba(147, 51, 234, 0.6), rgba(168, 85, 247, 0.5))';
         
-        // Reset after animation
+        // Show tooltip
+        const tooltip = document.createElement('div');
+        tooltip.textContent = 'Copied!';
+        tooltip.style.cssText = `
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(30, 20, 50, 0.95);
+            color: #ddd6fe;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        `;
+        
+        element.style.position = 'relative';
+        element.appendChild(tooltip);
+        
+        // Animate tooltip in
         setTimeout(() => {
-            element.classList.remove('copied');
+            tooltip.style.opacity = '1';
+        }, 50);
+        
+        // Reset after 1.5 seconds
+        setTimeout(() => {
+            tooltip.style.opacity = '0';
             element.style.transform = '';
             element.style.boxShadow = '';
             element.style.background = '';
-        }, 2000);
+            
+            setTimeout(() => {
+                if (tooltip.parentNode) {
+                    tooltip.parentNode.removeChild(tooltip);
+                }
+            }, 300);
+        }, 1500);
         
-        console.log('Successfully copied to clipboard:', text);
     } catch (err) {
         console.error('Failed to copy to clipboard:', err);
         
         // Fallback for older browsers
         const textArea = document.createElement('textarea');
         textArea.value = text;
-        textArea.style.position = 'fixed';
-        textArea.style.left = '-999999px';
-        textArea.style.top = '-999999px';
         document.body.appendChild(textArea);
         textArea.select();
-        
-        try {
-            document.execCommand('copy');
-            console.log('Fallback copy successful');
-            
-            // Visual feedback for fallback
-            element.classList.add('copied');
-            setTimeout(() => element.classList.remove('copied'), 2000);
-        } catch (fallbackErr) {
-            console.error('Fallback copy failed:', fallbackErr);
-        }
-        
+        document.execCommand('copy');
         document.body.removeChild(textArea);
     }
 }
@@ -208,13 +237,13 @@ function initializeMusicControls() {
     }
 
     // Set default volume
-    let currentVolume = 0.1; // 10%
+    let currentVolume = 0.4; // 40%
     let isPlaying = false;
     let isMuted = false;
 
     // Initialize volume display
     if (volumePercent) {
-        volumePercent.textContent = '10%';
+        volumePercent.textContent = '40%';
     }
 
     // Initialize volume slider background
@@ -624,3 +653,6 @@ setTimeout(() => updateProgress(), 1000);
 
 // Initialize server status (ADD THIS LINE)
 initializeServerStatus();
+
+const video = document.getElementById('local-player');
+video.play();

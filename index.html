@@ -11,54 +11,65 @@
         <script type="text/javascript" src="assets/scripts/all.min.js"></script>
     </header>
 <body>
-    <iframe id="youtube-player" class="bg" src="https://www.youtube.com/embed/Y652HaNvjbY?enablejsapi=1&autoplay=1&loop=1&mute=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
-    <img id="cursor" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTMgM0wxMC41IDEwLjVNMTAuNSAxMC41TDcgMjFMMTMgMTNIMjFMMTAuNSAxMC41WiIgc3Ryb2tlPSIjOWY3YWVhIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZmlsbD0iIzMzMCIgZmlsbC1vcGFjaXR5PSIwLjMiLz4KPC9zdmc+">
+    <iframe id="youtube-player" class="bg" src="https://www.youtube.com/embed/wuvkOZFAkhU?enablejsapi=1&autoplay=1&loop=1&mute=1&playlist=wuvkOZFAkhU" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+    <!-- <img id="cursor" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTMgM0wxMC41IDEwLjVNMTAuNSAxMC41TDcgMjFMMTMgMTNIMjFMMTAuNSAxMC41WiIgc3Ryb2tlPSIjOWY3YWVhIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZmlsbD0iIzMzMCIgZmlsbC1vcGFjaXR5PSIwLjMiLz4KPC9zdmc+"> -->
     
     <div class="overlay">
-        <div class="cornercontainer">
-            <div class="top">
-                <div class="left">
-                    <p class="state" id="clients">0/0</p>
-                    <p class="date" id="date"></p>
-                    <p class="title">Ar7340 RP</p>
-                </div>
+        <!-- Main Title - Moved to top left -->
+        <div class="main-title">
+            <h1>NIRVANA ROLEPLAY</h1>
+            <p>EXPERIENCE BEYOND REALITY</p>
+        </div>
+        
+        <!-- Loading Modal - Bottom Right -->
+        <div class="loader">
+            <div class="progress-circle">
+                <div class="inner-square"></div>
+            </div>
+            <div class="progress" id="progress-text">0%</div>
+            <div class="description" id="progress-description">Initializing server...</div>
+            <div class="progress-bar">
+                <div class="progress-bar-fill" id="progress-bar-fill"></div>
             </div>
         </div>
-
-        <div class="container">
-            <div class="information">
-                <!-- Information content can be added here -->
-                <div class="buttons">
-                    <!-- Buttons can be added here -->
-                </div>
+        
+        <!-- Status Panel - Top Right -->
+        <div class="status-panel">
+            <div class="status-item">
+                <span class="status-label">Players:</span>
+                <span class="status-value players" id="players-count">0/64</span>
             </div>
-
-            <div class="loader glow">
-                <div class="logo">
-                    <img class="transparent-logo" src="assets/media/logo.png" alt="Ar7340 RP Logo">
-                    <img class="filled-logo" src="assets/media/filled-logo.png" alt="Ar7340 RP Filled Logo">
-                </div>
-                <p class="progress">0%</p>
-                <p class="description">Loading server...</p>
-            </div>                
-
-            <div class="categories">
-                <div class="buttons">
-                    <!-- Category buttons will be added here -->
-                </div>
-                <div class="carousel">
-                    <div class="socialmedia">
-                        <!-- Social media icons will be populated here -->
-                    </div>
-                </div>
+            <div class="status-item">
+                <span class="status-label">Status:</span>
+                <span class="status-value" id="server-status">Connecting...</span>
             </div>
-
-            <div class="hideoverlay">
-                <div class="bind">F8</div>
-                <span class="text">Hide Interface</span>
+            <div class="status-item">
+                <span class="status-label">Time:</span>
+                <span class="status-value" id="current-time">00:00</span>
             </div>
+        </div>
+        
+        <!-- Social Media Icons - Bottom Center -->
+        <div class="social-media">
+            <div class="social-icon" data-link="https://discord.gg/nirvana">
+                <i class="fab fa-discord"></i>
+            </div>
+            <div class="social-icon" data-link="https://youtube.com/@nirvana">
+                <i class="fab fa-youtube"></i>
+            </div>
+            <div class="social-icon" data-link="https://twitter.com/nirvana">
+                <i class="fab fa-twitter"></i>
+            </div>
+            <div class="social-icon" data-link="https://instagram.com/nirvana">
+                <i class="fab fa-instagram"></i>
+            </div>
+            <div class="social-icon" data-link="https://tiktok.com/@nirvana">
+                <i class="fab fa-tiktok"></i>
+            </div>
+        </div>
+    </div>
 
-            <!-- Music Controls -->
+     <!-- Music Controls -->
             <div class="music-controls">
                 <div class="music-info">
                     <i class="fas fa-music music-icon"></i>
@@ -70,8 +81,8 @@
                     </button>
                     <div class="volume-control">
                         <i class="fas fa-volume-down"></i>
-                        <input type="range" id="volume-slider" min="0" max="100" value="10" class="volume-slider">
-                        <span class="volume-percent" id="volume-percent">10%</span>
+                        <input type="range" id="volume-slider" min="0" max="100" value="40" class="volume-slider">
+                        <span class="volume-percent" id="volume-percent">40%</span>
                     </div>
                 </div>
             </div>
@@ -101,7 +112,7 @@
                 if (music) {
                     // Start muted to bypass autoplay restrictions
                     music.muted = true;
-                    music.volume = 0.1;
+                    music.volume = 0.4;
                     
                     // Play immediately
                     music.play().then(() => {
@@ -113,5 +124,7 @@
                 }
             });
         </script>
-    </body>
+
+    <script src="main.js"></script>
+</body>
 </html>
