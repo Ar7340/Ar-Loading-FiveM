@@ -31,7 +31,7 @@ function updateDate() {
 }
 
 // Loading animation
-let progress = 50;
+let progress = 90;
 const progressElement = document.getElementById('progress-text');
 const descriptionElement = document.getElementById('progress-description');
 const progressBarFill = document.getElementById('progress-bar-fill');
